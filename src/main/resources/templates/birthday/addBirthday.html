@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <title>Birthdays</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+<div>
+    <ul class="navbar">
+        <li><a href="/logout">Logout</a></li>
+        <li><a href="/bdays">Birthdays</a></li>
+        <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/templates">Templates</a></li>
+        <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/users">Users</a></li>
+    </ul>
+</div>
+<div>
+    <form method="post" action="/add" th:object="${newBirthday}">
+        <h3>Input required values</h3>
+        <h3 th:text="${inputError}"></h3>
+        <table>
+            <tr>
+                <td>Input user name: </td>
+                <td><input type="text" maxlength="100" name="userName"
+                           th:value="${newBirthday.userName}" pattern="^(?!\s*$).+" required></td>
+            </tr>
+            <tr>
+                <td>Input birthday: </td>
+                <td><input type="date" name="dateOfBirth" th:value="${newBirthday.dateOfBirth}" required></td>
+            </tr>
+        </table>
+            <button type="submit">Add</button>
+    </form>
+</div>
+</body>
+</html>

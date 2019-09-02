@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <title>Birthdays</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+<div>
+    <ul class="navbar">
+        <li><a href="/logout">Logout</a></li>
+        <li><a href="/bdays">Birthdays</a></li>
+        <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/templates">Templates</a></li>
+        <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/users">Users</a></li>
+    </ul>
+</div>
+<div>
+            <h3>Users</h3>
+            <h4 th:text="${error}"></h4>
+            <table class="table">
+                <tr>
+                    <th>Id</th>
+                    <th>User Name</th>
+                    <th>Role</th>
+                    <th>Last activity</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <th:block th:each="user: ${users}">
+                    <tr>
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.userName}"></td>
+                        <td th:text="${user.role}"></td>
+                        <td th:text="${user.lastActivity}"></td>
+                        <td>
+                                <form th:if="${#authentication.getName()!=user.userName}"
+                                        th:action="@{'/users/'+${user.id}}" method="get">
+                                <button type="submit"><img src="/images/delete.png"></button>
+                            </form>
+                        </td>
+                        <td>
+                            <form th:action="@{'/editUser/'+${user.id}}" method="get">
+                                <button type="submit"><img src="/images/edit.png"></button>
+                            </form>
+                        </td>
+                        <td>
+                                <form th:if="${#authentication.getName()!=user.userName}"
+                                      th:action="@{'/status/'+${user.id}}" method="get">
+                                    <button type="submit" th:text="${user.getStatusButton(user.getActive())}"></button>
+                                </form>
+                        </td>
+                    </tr>
+                </th:block>
+            </table>
+            <form method="get" action="/addUser">
+                <button type="submit">Add User</button>
+            </form>
+</div>
+</body>
+</html>

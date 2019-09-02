@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <title>Birthdays</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+<div>
+    <ul class="navbar">
+        <li><a href="/logout">Logout</a></li>
+        <li><a href="/bdays">Birthdays</a></li>
+        <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/templates">Templates</a></li>
+        <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/users">Users</a></li>
+    </ul>
+</div>
+<div>
+    <form th:action="@{'/editBirthday/' + ${birthday.id}}" method="post" th:object="${saveChanges}">
+        <h3>Edit row</h3>
+        <h3 th:text="${error}"></h3>
+        <table>
+            <tr>
+                <td>User name</td>
+                <td>
+                    <input type="text" maxlength="100" th:value="${birthday.userName}" name="userName"
+                           pattern="^(?!\s*$).+" required>
+                </td>
+            </tr>
+            <tr>
+            <td>Date of Birth</td>
+            <td><input type="date" th:value="${birthday.dateOfBirth}" name="dateOfBirth" required></td>
+            </tr>
+        </table>
+        <p><button type="submit">Save changes</button></p>
+    </form>
+</div>
+</body>
+</html>

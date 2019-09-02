@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <title>Birthdays</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+<div>
+    <ul class="navbar">
+        <li><a href="/logout">Logout</a></li>
+        <li><a href="/bdays">Birthdays</a></li>
+        <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/templates">Templates</a></li>
+        <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a href="/users">Users</a></li>
+    </ul>
+</div>
+<div>
+    <h3>No page found</h3>
+</div>
+</body>
+</html>
